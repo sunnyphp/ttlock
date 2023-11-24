@@ -5,6 +5,7 @@ namespace SunnyPHP\TTLock\Request\OAuth2;
 
 use SunnyPHP\TTLock\Contract\Request\Method;
 use SunnyPHP\TTLock\Contract\Request\OAuth2\RefreshAccessTokenInterface;
+use SunnyPHP\TTLock\Contract\Request\RequiredConfiguration;
 use Webmozart\Assert\Assert;
 
 final class RefreshAccessToken implements RefreshAccessTokenInterface
@@ -37,9 +38,9 @@ final class RefreshAccessToken implements RefreshAccessTokenInterface
 		return $this->grantType;
 	}
 
-	public function isClientCredentialsRequired(): bool
+	public function getRequiredConfiguration(): int
 	{
-		return true;
+		return RequiredConfiguration::CLIENT_ID | RequiredConfiguration::CLIENT_SECRET;
 	}
 
 	public function getEndpointUrl(): string

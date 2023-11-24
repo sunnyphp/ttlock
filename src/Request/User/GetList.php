@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace SunnyPHP\TTLock\Request\User;
 
 use SunnyPHP\TTLock\Contract\Request\Method;
+use SunnyPHP\TTLock\Contract\Request\RequiredConfiguration;
 use SunnyPHP\TTLock\Contract\Request\User\GetListInterface;
 use Webmozart\Assert\Assert;
 
@@ -64,9 +65,9 @@ final class GetList implements GetListInterface
 		return $this->date;
 	}
 
-	public function isClientCredentialsRequired(): bool
+	public function getRequiredConfiguration(): int
 	{
-		return true;
+		return RequiredConfiguration::CLIENT_ID | RequiredConfiguration::CLIENT_SECRET;
 	}
 
 	public function getEndpointUrl(): string

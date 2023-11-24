@@ -30,7 +30,7 @@ class ApiException extends Exception
 
 	public static function supports($content): bool
 	{
-		return is_array($content) && isset($content['errmsg']);
+		return is_array($content) && isset($content['errcode']) && $content['errcode'] != 0;
 	}
 
 	public static function createFromArray(array $content, ?ResponseInterface $response = null): self

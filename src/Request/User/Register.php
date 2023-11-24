@@ -5,6 +5,7 @@ namespace SunnyPHP\TTLock\Request\User;
 
 use DateTimeImmutable;
 use SunnyPHP\TTLock\Contract\Request\Method;
+use SunnyPHP\TTLock\Contract\Request\RequiredConfiguration;
 use SunnyPHP\TTLock\Contract\Request\User\RegisterInterface;
 use Webmozart\Assert\Assert;
 
@@ -52,9 +53,9 @@ final class Register implements RegisterInterface
 		return $this->currentTime;
 	}
 
-	public function isClientCredentialsRequired(): bool
+	public function getRequiredConfiguration(): int
 	{
-		return true;
+		return RequiredConfiguration::CLIENT_ID | RequiredConfiguration::CLIENT_SECRET;
 	}
 
 	public function getEndpointUrl(): string

@@ -15,36 +15,29 @@ use Throwable;
 
 final class Transport
 {
-	private string $httpBase;
 	private ClientInterface $httpClient;
 	private RequestFactoryInterface $requestFactory;
 	private StreamFactoryInterface $streamFactory;
 
 	public function __construct(
-		string $httpBase,
 		?ClientInterface $httpClient = null,
 		?RequestFactoryInterface $requestFactory = null,
 		?StreamFactoryInterface $streamFactory = null
 	) {
-		$this->httpBase = rtrim($httpBase, '/');
 		$this->httpClient = $httpClient ?: Psr18ClientDiscovery::find();
 		$this->requestFactory = $requestFactory ?: Psr17FactoryDiscovery::findRequestFactory();
 		$this->streamFactory = $streamFactory ?: Psr17FactoryDiscovery::findStreamFactory();
 	}
 
 	/**
-	 * @see RequestFactoryInterface::createRequest()
-	 * @param string $urlPartWithoutHost
+	 * @param string $url
 	 * @param array $headers
 	 * @return RequestInterface
+	 * @see RequestFactoryInterface::createRequest()
 	 */
-	public function createPostRequest(string $urlPartWithoutHost, array $headers = [], ?string $body = null): RequestInterface
+	public function createPostRequest(string $url, array $headers = [], ?string $body = null): RequestInterface
 	{
-		if (!str_starts_with($urlPartWithoutHost, '/')) {
-			$urlPartWithoutHost = '/' . $urlPartWithoutHost;
-		}
-
-		$request = $this->requestFactory->createRequest('POST', $this->httpBase . $urlPartWithoutHost);
+		$request = $this->requestFactory->createRequest('POST', $url);
 		foreach ($headers as $name => $values) {
 			$request = $request->withHeader($name, $values);
 		}
@@ -56,16 +49,11 @@ final class Transport
 		return $request;
 	}
 
-	public function createGetRequest(string $urlPartWithoutHost, array $queryParams = [], array $headers = []): RequestInterface
+	public function createGetRequest(string $url, array $queryParams = [], array $headers = []): RequestInterface
 	{
-		if (!str_starts_with($urlPartWithoutHost, '/')) {
-			$urlPartWithoutHost = '/' . $urlPartWithoutHost;
-		}
+		$url .= ($queryParams ? (str_contains($url, '?') ? '&' : '?') . http_build_query($queryParams) : '');
 
-		$uri = str_contains($urlPartWithoutHost, '?') ? '&' : '?';
-		$uri = $this->httpBase . $urlPartWithoutHost . ($queryParams ? $uri . http_build_query($queryParams) : '');
-
-		$request = $this->requestFactory->createRequest('GET', $uri);
+		$request = $this->requestFactory->createRequest('GET', $url);
 		foreach ($headers as $name => $values) {
 			$request = $request->withHeader($name, $values);
 		}
@@ -92,6 +80,7 @@ final class Transport
 
 	/**
 	 * Returns API response (json decoded) or exception
+	 * @param RequestInterface $request
 	 * @return array
 	 * @throws ApiException
 	 * @throws Throwable
@@ -102,7 +91,13 @@ final class Transport
 		try {
 			$response = $this->httpClient->sendRequest($request);
 			if (!($type = $this->getResponseContentType($response)) || !str_contains($type, 'application/json')) {
-				throw new ApiException('Unsupported response content type: ' . $type);
+				$message = 'Unsupported response content type: ' . $type;
+				if (str_contains($type, 'text/html')) {
+					$content = trim(preg_replace('~[\n\t]+|\s{2,}~', ' ', strip_tags($response->getBody()->getContents())), " .\t\n");
+					$message .= ', content: ' . htmlspecialchars($content) . '.';
+				}
+
+				throw new ApiException($message);
 			}
 
 			$content = $response->getBody()->getContents();

@@ -6,10 +6,10 @@ namespace SunnyPHP\TTLock\Contract\Request;
 interface RequestInterface
 {
 	/**
-	 * Returns True if client credentials required (clientId, clientSecret)
-	 * @return bool
+	 * Returns required configuration bitmask
+	 * @return int
 	 */
-	public function isClientCredentialsRequired(): bool;
+	public function getRequiredConfiguration(): int;
 
 	/**
 	 * Endpoint request URL part
