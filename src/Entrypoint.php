@@ -38,6 +38,12 @@ final class Entrypoint
 		Request\Lock\InitializeInterface::class => R\Lock\Initialize::class,
 	];
 
+	/**
+	 * @param Configuration $configuration
+	 * @param Transport|null $transport
+	 * @param MiddlewareInterface[] $middlewares
+	 * @param array<class-string<Request\RequestInterface>, class-string<Response\ResponseInterface>> $responseClasses
+	 */
 	public function __construct(
 		Configuration $configuration,
 		?Transport $transport = null,
@@ -55,7 +61,7 @@ final class Entrypoint
 
 	public function withConfiguration(Configuration $configuration): self
 	{
-		return new self($configuration, $this->transport, $this->responseClass);
+		return new self($configuration, $this->transport, $this->middleware->getAllFlatten(), $this->responseClass);
 	}
 
 	public function withConfigurationAccessToken(string $accessToken): self
@@ -108,7 +114,7 @@ final class Entrypoint
 
 		$responseArray = $this->transport->getEndpointResponse($requestObject);
 
-		foreach ($this->middleware->getAll(BeforeResponseInterface::class) as $middleware) {
+		foreach ($this->middleware->getAllByType(BeforeResponseInterface::class) as $middleware) {
 			/** @var BeforeResponseInterface $middleware */
 			$responseArray = $middleware->handle($responseArray);
 		}

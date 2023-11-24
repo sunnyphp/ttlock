@@ -13,6 +13,9 @@ class Middleware
 	 */
 	private array $collection = [];
 
+	/**
+	 * @param MiddlewareInterface[] $middlewares
+	 */
 	public function __construct(array $middlewares = [])
 	{
 		if ($middlewares) {
@@ -39,8 +42,13 @@ class Middleware
 		return $this;
 	}
 
-	public function getAll(string $type): array
+	public function getAllByType(string $type): array
 	{
 		return $this->collection[$type] ?? [];
+	}
+
+	public function getAllFlatten(): array
+	{
+		return array_merge(...array_values($this->collection));
 	}
 }
