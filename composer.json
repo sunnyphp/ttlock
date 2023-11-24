@@ -42,7 +42,9 @@
         "nyholm/psr7": "^1.8",
         "php-http/guzzle7-adapter": "^1.0",
         "php-http/mock-client": "^1.6",
-        "phpunit/phpunit": "^9.6"
+        "phpunit/phpunit": "^9.6",
+        "rector/rector": "^0.18.10",
+        "roave/security-advisories": "dev-latest"
     },
 	"autoload": {
 		"psr-4": {
