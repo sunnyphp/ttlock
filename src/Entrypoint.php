@@ -99,7 +99,7 @@ final class Entrypoint
 	{
 		$url = $this->configuration->getEndpointHost() . $request->getEndpointUrl();
 
-		$params = $request->toArray();
+		$params = $request->getRequestParams();
 		if ($bitmask = $request->getRequiredConfiguration()) {
 			$params = array_replace($params, $this->configuration->toArray($bitmask));
 		}

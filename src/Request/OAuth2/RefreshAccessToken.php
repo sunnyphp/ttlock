@@ -53,7 +53,7 @@ final class RefreshAccessToken implements RefreshAccessTokenInterface
 		return Method::POST;
 	}
 
-	public function toArray(): array
+	public function getRequestParams(): array
 	{
 		return [
 			'refresh_token' => $this->getRefreshToken(),

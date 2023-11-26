@@ -81,7 +81,7 @@ final class Initialize implements InitializeInterface
 		return Method::POST;
 	}
 
-	public function toArray(): array
+	public function getRequestParams(): array
 	{
 		$params = [
 			'lockData' => $this->getLockData(),

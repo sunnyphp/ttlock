@@ -68,7 +68,7 @@ final class ResetPassword implements ResetPasswordInterface
 		return Method::POST;
 	}
 
-	public function toArray(): array
+	public function getRequestParams(): array
 	{
 		return [
 			'username' => $this->getUsername(),

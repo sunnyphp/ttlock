@@ -80,7 +80,7 @@ final class GetList implements GetListInterface
 		return Method::GET;
 	}
 
-	public function toArray(): array
+	public function getRequestParams(): array
 	{
 		$ret['pageNo'] = $this->getPageNo();
 		$ret['pageSize'] = $this->getPageSize();

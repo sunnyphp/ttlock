@@ -68,7 +68,7 @@ final class Register implements RegisterInterface
 		return Method::POST;
 	}
 
-	public function toArray(): array
+	public function getRequestParams(): array
 	{
 		return [
 			'username' => $this->getUsername(),

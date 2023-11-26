@@ -27,5 +27,5 @@ interface RequestInterface
 	 * Returns key-value array for pass into endpoint request params
 	 * @return array
 	 */
-	public function toArray(): array;
+	public function getRequestParams(): array;
 }
