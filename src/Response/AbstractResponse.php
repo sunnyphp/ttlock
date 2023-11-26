@@ -56,7 +56,7 @@ class AbstractResponse implements ResponseInterface
 		}
 	}
 
-	public function getArray(): array
+	public function getResponseArray(): array
 	{
 		return $this->response;
 	}

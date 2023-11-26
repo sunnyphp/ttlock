@@ -15,5 +15,5 @@ interface ResponseInterface
 	 * Returns raw response array
 	 * @return array
 	 */
-	public function getArray(): array;
+	public function getResponseArray(): array;
 }
