@@ -4,47 +4,53 @@ declare(strict_types=1);
 namespace SunnyPHP\TTLock\Request\Lock;
 
 use DateTimeImmutable;
-use SunnyPHP\TTLock\Contract\Request\Lock\InitializeInterface;
+use SunnyPHP\TTLock\Contract\Request\Lock\GetListInterface;
 use SunnyPHP\TTLock\Contract\Request\Method;
 use SunnyPHP\TTLock\Contract\Request\RequiredConfiguration;
 use SunnyPHP\TTLock\Helper\DateTime;
 use Webmozart\Assert\Assert;
 
-final class Initialize implements InitializeInterface
+final class GetList implements GetListInterface
 {
-	private string $lockData;
+	private int $pageNo;
+	private int $pageSize;
 	private ?string $lockAlias;
 	private ?int $groupId;
-	private ?bool $nbInitSuccess;
 	private DateTimeImmutable $currentDateTime;
 
 	/**
-	 * @param string $lockData Lock Data, must be got from the callback function of "Lock initialize" method of APP SDK
+	 * @param int $pageNo Page no, start from 1
+	 * @param int $pageSize Items per page, max 1000
 	 * @param string|null $lockAlias Lock alias
 	 * @param int|null $groupId Group ID
-	 * @param bool|null $nbInitSuccess Is NB-IoT lock initialized successfully? Only NB-IoT lock need this parameter.
 	 * @param DateTimeImmutable|null $currentDateTime Current date
 	 */
 	public function __construct(
-		string $lockData,
+		int $pageNo = 1,
+		int $pageSize = 100,
 		?string $lockAlias = null,
 		?int $groupId = null,
-		?bool $nbInitSuccess = null,
 		?DateTimeImmutable $currentDateTime = null
 	) {
-		Assert::notEmpty($lockData, 'Lock data parameter should be filled');
 		Assert::nullOrStringNotEmpty($lockAlias, 'Lock alias should be filled or NULL');
+		Assert::greaterThanEq($pageNo, 1, 'Page no should be greater or equals 1');
+		Assert::range($pageSize, 1, 1000, 'Page size range should be [1, 1000]');
 
-		$this->lockData = $lockData;
+		$this->pageNo = $pageNo;
+		$this->pageSize = $pageSize;
 		$this->lockAlias = $lockAlias;
 		$this->groupId = $groupId;
-		$this->nbInitSuccess = $nbInitSuccess;
 		$this->currentDateTime = $currentDateTime ?: new DateTimeImmutable();
 	}
 
-	public function getLockData(): string
+	public function getPageNo(): int
 	{
-		return $this->lockData;
+		return $this->pageNo;
+	}
+
+	public function getPageSize(): int
+	{
+		return $this->pageSize;
 	}
 
 	public function getLockAlias(): ?string
@@ -57,14 +63,9 @@ final class Initialize implements InitializeInterface
 		return $this->groupId;
 	}
 
-	public function getNbInitSuccess(): ?bool
-	{
-		return $this->nbInitSuccess;
-	}
-
 	public function getCurrentTimeStamp(): int
 	{
-		return DateTime::getUv($this->getCurrentDateTime());
+		return DateTime::getUv($this->currentDateTime);
 	}
 
 	public function getCurrentDateTime(): DateTimeImmutable
@@ -79,7 +80,7 @@ final class Initialize implements InitializeInterface
 
 	public function getEndpointUrl(): string
 	{
-		return '/v3/lock/initialize';
+		return '/v3/lock/list';
 	}
 
 	public function getEndpointMethod(): string
@@ -90,7 +91,8 @@ final class Initialize implements InitializeInterface
 	public function getRequestParams(): array
 	{
 		$params = [
-			'lockData' => $this->getLockData(),
+			'pageNo' => $this->getPageNo(),
+			'pageSize' => $this->getPageSize(),
 			'date' => $this->getCurrentTimeStamp(),
 		];
 
@@ -100,10 +102,6 @@ final class Initialize implements InitializeInterface
 
 		if (($value = $this->getGroupId()) !== null) {
 			$params['groupId'] = $value;
-		}
-
-		if (($value = $this->getNbInitSuccess()) !== null) {
-			$params['nbInitSuccess'] = (int) $value;
 		}
 
 		return $params;

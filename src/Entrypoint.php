@@ -22,6 +22,13 @@ use Webmozart\Assert\InvalidArgumentException;
  * @method Response\Common\SuccessResponseInterface getUserResetPassword(Request\User\ResetPasswordInterface $request)
  * @method Response\Common\SuccessResponseInterface getUserDelete(Request\User\DeleteInterface $request)
  * @method Response\Lock\InitializeInterface getLockInitialize(Request\Lock\InitializeInterface $request)
+ * @method Response\Lock\GetListInterface getLockList(Request\Lock\GetListInterface $request)
+ * @method Response\Lock\GetDetailInterface getLockDetail(Request\Lock\GetDetailInterface $request)
+ * @method Response\Common\SuccessResponseInterface getLockDelete(Request\Lock\DeleteInterface $request)
+ * @method Response\Common\SuccessResponseInterface getLockUpdateData(Request\Lock\UpdateDataInterface $request)
+ * @method Response\Common\SuccessResponseInterface getLockRename(Request\Lock\RenameInterface $request)
+ * @method Response\Common\SuccessResponseInterface getLockTransfer(Request\Lock\TransferInterface $request)
+ * @method Response\Common\SuccessResponseInterface getLockUpdateElectricQuantity(Request\Lock\UpdateElectricQuantityInterface $request)
  */
 final class Entrypoint
 {
@@ -36,6 +43,13 @@ final class Entrypoint
 		Request\User\ResetPasswordInterface::class => R\Common\SuccessResponse::class,
 		Request\User\DeleteInterface::class => R\Common\SuccessResponse::class,
 		Request\Lock\InitializeInterface::class => R\Lock\Initialize::class,
+		Request\Lock\GetListInterface::class => R\Lock\GetList::class,
+		Request\Lock\GetDetailInterface::class => R\Lock\GetDetail::class,
+		Request\Lock\DeleteInterface::class => R\Common\SuccessResponse::class,
+		Request\Lock\UpdateDataInterface::class => R\Common\SuccessResponse::class,
+		Request\Lock\RenameInterface::class => R\Common\SuccessResponse::class,
+		Request\Lock\TransferInterface::class => R\Common\SuccessResponse::class,
+		Request\Lock\UpdateElectricQuantityInterface::class => R\Common\SuccessResponse::class,
 	];
 
 	/**
