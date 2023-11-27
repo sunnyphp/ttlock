@@ -15,21 +15,21 @@ final class Initialize implements InitializeInterface
 	private ?string $lockAlias;
 	private ?int $groupId;
 	private ?bool $nbInitSuccess;
-	private DateTimeImmutable $currentTime;
+	private DateTimeImmutable $currentDateTime;
 
 	/**
 	 * @param string $lockData Lock Data, must be got from the callback function of "Lock initialize" method of APP SDK
 	 * @param string|null $lockAlias Lock alias
 	 * @param int|null $groupId Group ID
 	 * @param bool|null $nbInitSuccess Is NB-IoT lock initialized successfully? Only NB-IoT lock need this parameter.
-	 * @param DateTimeImmutable|null $currentDate Current date
+	 * @param DateTimeImmutable|null $currentDateTime Current date
 	 */
 	public function __construct(
 		string $lockData,
 		?string $lockAlias = null,
 		?int $groupId = null,
 		?bool $nbInitSuccess = null,
-		?DateTimeImmutable $currentDate = null
+		?DateTimeImmutable $currentDateTime = null
 	) {
 		Assert::stringNotEmpty($lockData, 'Username parameter should be non-empty string');
 		Assert::nullOrStringNotEmpty($lockAlias, 'Lock alias should be filled or NULL');
@@ -38,7 +38,7 @@ final class Initialize implements InitializeInterface
 		$this->lockAlias = $lockAlias;
 		$this->groupId = $groupId;
 		$this->nbInitSuccess = $nbInitSuccess;
-		$this->currentTime = $currentDate ?: new DateTimeImmutable();
+		$this->currentDateTime = $currentDateTime ?: new DateTimeImmutable();
 	}
 
 	public function getLockData(): string
@@ -61,9 +61,14 @@ final class Initialize implements InitializeInterface
 		return $this->nbInitSuccess;
 	}
 
-	public function getCurrentTime(): DateTimeImmutable
+	public function getCurrentTimeStamp(): int
 	{
-		return $this->currentTime;
+		return (int) $this->getCurrentDateTime()->format('Uv');
+	}
+
+	public function getCurrentDateTime(): DateTimeImmutable
+	{
+		return $this->currentDateTime;
 	}
 
 	public function getRequiredConfiguration(): int
@@ -85,7 +90,7 @@ final class Initialize implements InitializeInterface
 	{
 		$params = [
 			'lockData' => $this->getLockData(),
-			'date' => $this->getCurrentTime()->getTimestamp() * 1000,
+			'date' => $this->getCurrentTimeStamp(),
 		];
 
 		if (($value = $this->getLockAlias()) !== null) {

@@ -16,5 +16,17 @@ interface InitializeInterface extends RequestInterface
 
 	public function getNbInitSuccess(): ?bool;
 
-	public function getCurrentTime(): DateTimeImmutable;
+	/**
+	 * Current unix time stamp in millisecond
+	 * @see getCurrentDateTime
+	 * @return int
+	 */
+	public function getCurrentTimeStamp(): int;
+
+	/**
+	 * Current date & time
+	 * @see getCurrentTimeStamp
+	 * @return DateTimeImmutable
+	 */
+	public function getCurrentDateTime(): DateTimeImmutable;
 }

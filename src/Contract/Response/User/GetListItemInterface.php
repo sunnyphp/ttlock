@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace SunnyPHP\TTLock\Contract\Response\User;
 
+use DateTimeImmutable;
 use SunnyPHP\TTLock\Contract\Response\ResponseInterface;
 
 interface GetListItemInterface extends ResponseInterface
@@ -17,5 +18,11 @@ interface GetListItemInterface extends ResponseInterface
 	 * Register time (timestamp in milliseconds)
 	 * @return int
 	 */
-	public function getRegTime(): int;
+	public function getRegisterTimeStamp(): int;
+
+	/**
+	 * Register time
+	 * @return DateTimeImmutable
+	 */
+	public function getRegisterDateTime(): DateTimeImmutable;
 }

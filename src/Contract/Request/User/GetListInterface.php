@@ -9,16 +9,32 @@ use SunnyPHP\TTLock\Contract\Request\RequestInterface;
 interface GetListInterface extends RequestInterface
 {
 	/**
-	 * Filter query by register time, start time (timestamp in millisecond)
-	 * @return null|int
+	 * Filter query by register time, unix time stamp in millisecond
+	 * @see getStartDateTime
+	 * @return int|null
 	 */
-	public function getStartDate(): ?int;
+	public function getStartTimeStamp(): ?int;
 
 	/**
-	 * Filter query by register time, end time (timestamp in millisecond)
-	 * @return null|int
+	 * Filter query by register time, start time
+	 * @see getStartTimeStamp
+	 * @return DateTimeImmutable|null
 	 */
-	public function getEndDate(): ?int;
+	public function getStartDateTime(): ?DateTimeImmutable;
+
+	/**
+	 * Filter query by register time, unix time stamp in millisecond
+	 * @see getEndDateTime
+	 * @return int|null
+	 */
+	public function getEndTimeStamp(): ?int;
+
+	/**
+	 * Filter query by register time, end time
+	 * @see getEndTimeStamp
+	 * @return DateTimeImmutable|null
+	 */
+	public function getEndDateTime(): ?DateTimeImmutable;
 
 	/**
 	 * Page no, start from 1
@@ -33,8 +49,16 @@ interface GetListInterface extends RequestInterface
 	public function getPageSize(): int;
 
 	/**
-	 * Current time (timestamp in millisecond)
+	 * Current unix time stamp in millisecond
+	 * @see getCurrentDateTime
 	 * @return int
 	 */
-	public function getDate(): int;
+	public function getCurrentTimeStamp(): int;
+
+	/**
+	 * Current date & time
+	 * @see getCurrentTimeStamp
+	 * @return DateTimeImmutable
+	 */
+	public function getCurrentDateTime(): DateTimeImmutable;
 }

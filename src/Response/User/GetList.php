@@ -8,13 +8,13 @@ use SunnyPHP\TTLock\Response\AbstractResponse;
 
 final class GetList extends AbstractResponse implements GetListInterface
 {
+	private ?array $collection = null;
+
 	public function __construct(array $response)
 	{
 		$this->validateArray($response, 'list');
 		$this->validateInteger($response, 'pageSize', 'pages', 'total');
 		$this->validatePositiveInteger($response, 'pageNo');
-
-		$response['list'] = array_map(fn ($value) => new GetListItem($value), $response['list']);
 
 		parent::__construct($response);
 	}
@@ -22,6 +22,15 @@ final class GetList extends AbstractResponse implements GetListInterface
 	public function getList(): array
 	{
 		return $this->response['list'];
+	}
+
+	public function getListCollection(): array
+	{
+		if ($this->collection === null) {
+			$this->collection = array_map(fn ($value) => new GetListItem($value), $this->getList());
+		}
+
+		return $this->collection;
 	}
 
 	public function getPageNo(): int

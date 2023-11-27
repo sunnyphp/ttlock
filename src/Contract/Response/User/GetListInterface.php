@@ -9,9 +9,15 @@ interface GetListInterface extends ResponseInterface
 {
 	/**
 	 * List items
-	 * @return GetListItemInterface[]
+	 * @return array[]
 	 */
 	public function getList(): array;
+
+	/**
+	 * Object list items
+	 * @return GetListItemInterface[]
+	 */
+	public function getListCollection(): array;
 
 	/**
 	 * Page no, start from 1

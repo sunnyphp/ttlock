@@ -13,19 +13,19 @@ final class ResetPassword implements ResetPasswordInterface
 {
 	private string $username;
 	private string $password;
-	private DateTimeImmutable $currentTime;
+	private DateTimeImmutable $currentDateTime;
 
 	/**
 	 * @param string $username Username for reset password in API. Notice: do not use your platform's developer account.
 	 * @param string $password Plain or MD5 hashed user password
 	 * @param bool $encryptedPassword True if password hashed
-	 * @param DateTimeImmutable|null $currentDate Current date
+	 * @param DateTimeImmutable|null $currentDateTime Current date
 	 */
 	public function __construct(
 		string $username,
 		string $password,
 		bool $encryptedPassword = false,
-		?DateTimeImmutable $currentDate = null
+		?DateTimeImmutable $currentDateTime = null
 	) {
 		Assert::stringNotEmpty($username, 'Username parameter should be non-empty string');
 		Assert::regex($username, '~^\w+$~', 'Username should contain only english characters or/and numbers');
@@ -35,7 +35,7 @@ final class ResetPassword implements ResetPasswordInterface
 
 		$this->username = $username;
 		$this->password = $encryptedPassword ? $password : md5($password);
-		$this->currentTime = $currentDate ?: new DateTimeImmutable();
+		$this->currentDateTime = $currentDateTime ?: new DateTimeImmutable();
 	}
 
 	public function getUsername(): string
@@ -48,9 +48,14 @@ final class ResetPassword implements ResetPasswordInterface
 		return $this->password;
 	}
 
-	public function getCurrentTime(): DateTimeImmutable
+	public function getCurrentTimeStamp(): int
 	{
-		return $this->currentTime;
+		return (int) $this->getCurrentDateTime()->format('Uv');
+	}
+
+	public function getCurrentDateTime(): DateTimeImmutable
+	{
+		return $this->currentDateTime;
 	}
 
 	public function getRequiredConfiguration(): int
@@ -73,7 +78,7 @@ final class ResetPassword implements ResetPasswordInterface
 		return [
 			'username' => $this->getUsername(),
 			'password' => $this->getPassword(),
-			'date' => $this->getCurrentTime()->getTimestamp() * 1000,
+			'date' => $this->getCurrentTimeStamp(),
 		];
 	}
 }

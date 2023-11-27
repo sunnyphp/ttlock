@@ -15,8 +15,16 @@ interface DeleteInterface extends RequestInterface
 	public function getUsername(): string;
 
 	/**
-	 * Current time
+	 * Current unix time stamp in millisecond
+	 * @see getCurrentDateTime
+	 * @return int
+	 */
+	public function getCurrentTimeStamp(): int;
+
+	/**
+	 * Current date & time
+	 * @see getCurrentTimeStamp
 	 * @return DateTimeImmutable
 	 */
-	public function getCurrentTime(): DateTimeImmutable;
+	public function getCurrentDateTime(): DateTimeImmutable;
 }

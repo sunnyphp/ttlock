@@ -12,21 +12,21 @@ use Webmozart\Assert\Assert;
 final class Delete implements DeleteInterface
 {
 	private string $username;
-	private DateTimeImmutable $currentTime;
+	private DateTimeImmutable $currentDateTime;
 
 	/**
 	 * @param string $username Username for delete in API
-	 * @param DateTimeImmutable|null $currentDate Current date
+	 * @param DateTimeImmutable|null $currentDateTime Current date
 	 */
 	public function __construct(
 		string $username,
-		?DateTimeImmutable $currentDate = null
+		?DateTimeImmutable $currentDateTime = null
 	) {
 		Assert::stringNotEmpty($username, 'Username parameter should be non-empty string');
 		Assert::regex($username, '~^\w+$~', 'Username should contain only english characters or/and numbers');
 
 		$this->username = $username;
-		$this->currentTime = $currentDate ?: new DateTimeImmutable();
+		$this->currentDateTime = $currentDateTime ?: new DateTimeImmutable();
 	}
 
 	public function getUsername(): string
@@ -34,9 +34,14 @@ final class Delete implements DeleteInterface
 		return $this->username;
 	}
 
-	public function getCurrentTime(): DateTimeImmutable
+	public function getCurrentTimeStamp(): int
 	{
-		return $this->currentTime;
+		return (int) $this->getCurrentDateTime()->format('Uv');
+	}
+
+	public function getCurrentDateTime(): DateTimeImmutable
+	{
+		return $this->currentDateTime;
 	}
 
 	public function getRequiredConfiguration(): int
@@ -58,7 +63,7 @@ final class Delete implements DeleteInterface
 	{
 		return [
 			'username' => $this->getUsername(),
-			'date' => $this->getCurrentTime()->getTimestamp() * 1000,
+			'date' => $this->getCurrentTimeStamp(),
 		];
 	}
 }
