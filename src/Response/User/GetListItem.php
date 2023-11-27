@@ -5,6 +5,7 @@ namespace SunnyPHP\TTLock\Response\User;
 
 use DateTimeImmutable;
 use SunnyPHP\TTLock\Contract\Response\User\GetListItemInterface;
+use SunnyPHP\TTLock\Helper\DateTime;
 use SunnyPHP\TTLock\Response\AbstractResponse;
 
 final class GetListItem extends AbstractResponse implements GetListItemInterface
@@ -32,7 +33,7 @@ final class GetListItem extends AbstractResponse implements GetListItemInterface
 	public function getRegisterDateTime(): DateTimeImmutable
 	{
 		if ($this->registerDateTime === null) {
-			$this->registerDateTime = DateTimeImmutable::createFromFormat('Uv', $this->getRegisterTimeStamp());
+			$this->registerDateTime = DateTime::getByUv($this->getRegisterTimeStamp());
 		}
 
 		return $this->registerDateTime;

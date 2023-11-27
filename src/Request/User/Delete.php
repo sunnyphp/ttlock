@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use SunnyPHP\TTLock\Contract\Request\Method;
 use SunnyPHP\TTLock\Contract\Request\RequiredConfiguration;
 use SunnyPHP\TTLock\Contract\Request\User\DeleteInterface;
+use SunnyPHP\TTLock\Helper\DateTime;
 use Webmozart\Assert\Assert;
 
 final class Delete implements DeleteInterface
@@ -36,7 +37,7 @@ final class Delete implements DeleteInterface
 
 	public function getCurrentTimeStamp(): int
 	{
-		return (int) $this->getCurrentDateTime()->format('Uv');
+		return DateTime::getUv($this->getCurrentDateTime());
 	}
 
 	public function getCurrentDateTime(): DateTimeImmutable

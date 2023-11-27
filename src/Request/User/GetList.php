@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use SunnyPHP\TTLock\Contract\Request\Method;
 use SunnyPHP\TTLock\Contract\Request\RequiredConfiguration;
 use SunnyPHP\TTLock\Contract\Request\User\GetListInterface;
+use SunnyPHP\TTLock\Helper\DateTime;
 use Webmozart\Assert\Assert;
 
 final class GetList implements GetListInterface
@@ -43,11 +44,7 @@ final class GetList implements GetListInterface
 
 	public function getStartTimeStamp(): ?int
 	{
-		if (($dateTime = $this->getStartDateTime()) === null) {
-			return null;
-		}
-
-		return (int) $dateTime->format('Uv');
+		return DateTime::getUvOrNull($this->getStartDateTime());
 	}
 
 	public function getStartDateTime(): ?DateTimeImmutable
@@ -57,11 +54,7 @@ final class GetList implements GetListInterface
 
 	public function getEndTimeStamp(): ?int
 	{
-		if (($dateTime = $this->getEndDateTime()) === null) {
-			return null;
-		}
-
-		return (int) $dateTime->format('Uv');
+		return DateTime::getUvOrNull($this->getEndDateTime());
 	}
 
 	public function getEndDateTime(): ?DateTimeImmutable
@@ -81,7 +74,7 @@ final class GetList implements GetListInterface
 
 	public function getCurrentTimeStamp(): int
 	{
-		return (int) $this->getCurrentDateTime()->format('Uv');
+		return DateTime::getUv($this->getCurrentDateTime());
 	}
 
 	public function getCurrentDateTime(): DateTimeImmutable
