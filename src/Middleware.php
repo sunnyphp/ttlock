@@ -6,7 +6,7 @@ namespace SunnyPHP\TTLock;
 use SunnyPHP\TTLock\Contract\Middleware\MiddlewareInterface;
 use Webmozart\Assert\Assert;
 
-class Middleware
+final class Middleware
 {
 	/**
 	 * @var MiddlewareInterface[][]

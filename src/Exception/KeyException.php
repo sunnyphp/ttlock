@@ -7,7 +7,7 @@ namespace SunnyPHP\TTLock\Exception;
  * Ekey related errors
  * @link https://euopen.ttlock.com/document/doc?urlName=cloud/errorCodeEn.html
  */
-final class EkeyException extends ApiException
+final class KeyException extends ApiException
 {
 	protected static array $codeToMessageList = [
 		-1008 => 'eKey does not exist',
