@@ -29,6 +29,16 @@ use Webmozart\Assert\InvalidArgumentException;
  * @method Response\Common\SuccessResponseInterface getLockRename(Request\Lock\RenameInterface $request)
  * @method Response\Common\SuccessResponseInterface getLockTransfer(Request\Lock\TransferInterface $request)
  * @method Response\Common\SuccessResponseInterface getLockUpdateElectricQuantity(Request\Lock\UpdateElectricQuantityInterface $request)
+ * @method Response\Key\GetListInterface getKeyList(Request\Key\GetListInterface $request)
+ * @method Response\Key\GetListByLockInterface getKeyListByLock(Request\Key\GetListByLockInterface $request)
+ * @method Response\Key\GetListItemInterface getKeyDetail(Request\Key\GetDetailInterface $request)
+ * @method Response\Common\SuccessResponseInterface getKeyDelete(Request\Key\DeleteInterface $request)
+ * @method Response\Common\SuccessResponseInterface getKeyUpdate(Request\Key\UpdateInterface $request)
+ * @method Response\Common\SuccessResponseInterface getKeyAuthorize(Request\Key\AuthorizeInterface $request)
+ * @method Response\Common\SuccessResponseInterface getKeyUnauthorize(Request\Key\UnauthorizeInterface $request)
+ * @method Response\Common\SuccessResponseInterface getKeyFreeze(Request\Key\FreezeInterface $request)
+ * @method Response\Common\SuccessResponseInterface getKeyUnfreeze(Request\Key\UnfreezeInterface $request)
+ * @method Response\Key\SendInterface getKeySend(Request\Key\SendInterface $request)
  */
 final class Entrypoint
 {
@@ -50,6 +60,16 @@ final class Entrypoint
 		Request\Lock\RenameInterface::class => R\Common\SuccessResponse::class,
 		Request\Lock\TransferInterface::class => R\Common\SuccessResponse::class,
 		Request\Lock\UpdateElectricQuantityInterface::class => R\Common\SuccessResponse::class,
+		Request\Key\GetListInterface::class => R\Key\GetList::class,
+		Request\Key\GetListByLockInterface::class => R\Key\GetListByLock::class,
+		Request\Key\GetDetailInterface::class => R\Key\GetDetail::class,
+		Request\Key\DeleteInterface::class => R\Common\SuccessResponse::class,
+		Request\Key\UpdateInterface::class => R\Common\SuccessResponse::class,
+		Request\Key\AuthorizeInterface::class => R\Common\SuccessResponse::class,
+		Request\Key\UnauthorizeInterface::class => R\Common\SuccessResponse::class,
+		Request\Key\FreezeInterface::class => R\Common\SuccessResponse::class,
+		Request\Key\UnfreezeInterface::class => R\Common\SuccessResponse::class,
+		Request\Key\SendInterface::class => R\Key\Send::class,
 	];
 
 	/**
