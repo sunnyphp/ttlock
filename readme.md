@@ -14,10 +14,14 @@ composer require sunnyphp/ttlock php-http/guzzle7-adapter
 ```
 
 ```php
+<?php
+declare(strict_types=1);
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 use SunnyPHP\TTLock\Configuration;
 use SunnyPHP\TTLock\Entrypoint;
+use SunnyPHP\TTLock\Request\Lock\GetList;
 use SunnyPHP\TTLock\Request\Lock\Initialize;
 use SunnyPHP\TTLock\Request\OAuth2\AccessToken;
 use SunnyPHP\TTLock\Request\User\Register;
@@ -51,7 +55,7 @@ $newLockIds = $entrypoint->getLockInitialize(new Initialize($lockData));
 var_dump($newLockIds->getResponseArray());
 
 // get all initialized locks
-$locks = $entrypoint->getLockList();
+$locks = $entrypoint->getLockList(new GetList());
 var_dump($locks->getResponseArray());
 
 // other requests
