@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use SunnyPHP\TTLock\Contract\Request\Method;
 use SunnyPHP\TTLock\Contract\Request\RequiredConfiguration;
 use SunnyPHP\TTLock\Contract\Request\User\GetListInterface;
+use SunnyPHP\TTLock\Exception\CommonException;
 use SunnyPHP\TTLock\Helper\DateTime;
 use Webmozart\Assert\Assert;
 
@@ -80,6 +81,11 @@ final class GetList implements GetListInterface
 	public function getCurrentDateTime(): DateTimeImmutable
 	{
 		return $this->currentDateTime;
+	}
+
+	public function getExceptionClass(): string
+	{
+		return CommonException::class;
 	}
 
 	public function getRequiredConfiguration(): int

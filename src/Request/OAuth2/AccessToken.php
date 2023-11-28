@@ -6,6 +6,7 @@ namespace SunnyPHP\TTLock\Request\OAuth2;
 use SunnyPHP\TTLock\Contract\Request\Method;
 use SunnyPHP\TTLock\Contract\Request\OAuth2\AccessTokenInterface;
 use SunnyPHP\TTLock\Contract\Request\RequiredConfiguration;
+use SunnyPHP\TTLock\Exception\CommonException;
 use Webmozart\Assert\Assert;
 
 final class AccessToken implements AccessTokenInterface
@@ -41,6 +42,11 @@ final class AccessToken implements AccessTokenInterface
 	public function getPassword(): string
 	{
 		return $this->password;
+	}
+
+	public function getExceptionClass(): string
+	{
+		return CommonException::class;
 	}
 
 	public function getRequiredConfiguration(): int

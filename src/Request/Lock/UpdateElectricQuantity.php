@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use SunnyPHP\TTLock\Contract\Request\Lock\UpdateElectricQuantityInterface;
 use SunnyPHP\TTLock\Contract\Request\Method;
 use SunnyPHP\TTLock\Contract\Request\RequiredConfiguration;
+use SunnyPHP\TTLock\Exception\LockException;
 use SunnyPHP\TTLock\Helper\DateTime;
 
 final class UpdateElectricQuantity implements UpdateElectricQuantityInterface
@@ -48,6 +49,11 @@ final class UpdateElectricQuantity implements UpdateElectricQuantityInterface
 	public function getCurrentDateTime(): DateTimeImmutable
 	{
 		return $this->currentDateTime;
+	}
+
+	public function getExceptionClass(): string
+	{
+		return LockException::class;
 	}
 
 	public function getRequiredConfiguration(): int

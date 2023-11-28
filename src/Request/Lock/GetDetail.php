@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use SunnyPHP\TTLock\Contract\Request\Lock\GetDetailInterface;
 use SunnyPHP\TTLock\Contract\Request\Method;
 use SunnyPHP\TTLock\Contract\Request\RequiredConfiguration;
+use SunnyPHP\TTLock\Exception\LockException;
 use SunnyPHP\TTLock\Helper\DateTime;
 
 final class GetDetail implements GetDetailInterface
@@ -41,6 +42,11 @@ final class GetDetail implements GetDetailInterface
 		return $this->currentDateTime;
 	}
 
+	public function getExceptionClass(): string
+	{
+		return LockException::class;
+	}
+
 	public function getRequiredConfiguration(): int
 	{
 		return RequiredConfiguration::CLIENT_ID | RequiredConfiguration::ACCESS_TOKEN;
@@ -53,7 +59,7 @@ final class GetDetail implements GetDetailInterface
 
 	public function getEndpointMethod(): string
 	{
-		return Method::POST;
+		return Method::GET;
 	}
 
 	public function getRequestParams(): array

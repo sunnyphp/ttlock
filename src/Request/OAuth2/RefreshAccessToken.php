@@ -6,6 +6,7 @@ namespace SunnyPHP\TTLock\Request\OAuth2;
 use SunnyPHP\TTLock\Contract\Request\Method;
 use SunnyPHP\TTLock\Contract\Request\OAuth2\RefreshAccessTokenInterface;
 use SunnyPHP\TTLock\Contract\Request\RequiredConfiguration;
+use SunnyPHP\TTLock\Exception\CommonException;
 use Webmozart\Assert\Assert;
 
 final class RefreshAccessToken implements RefreshAccessTokenInterface
@@ -36,6 +37,11 @@ final class RefreshAccessToken implements RefreshAccessTokenInterface
 	public function getGrantType(): string
 	{
 		return $this->grantType;
+	}
+
+	public function getExceptionClass(): string
+	{
+		return CommonException::class;
 	}
 
 	public function getRequiredConfiguration(): int

@@ -6,6 +6,12 @@ namespace SunnyPHP\TTLock\Contract\Request;
 interface RequestInterface
 {
 	/**
+	 * Returns class FQDN for exceptions
+	 * @return class-string
+	 */
+	public function getExceptionClass(): string;
+
+	/**
 	 * Returns required configuration bitmask
 	 * @return int
 	 */

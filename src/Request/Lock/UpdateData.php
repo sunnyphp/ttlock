@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use SunnyPHP\TTLock\Contract\Request\Lock\UpdateDataInterface;
 use SunnyPHP\TTLock\Contract\Request\Method;
 use SunnyPHP\TTLock\Contract\Request\RequiredConfiguration;
+use SunnyPHP\TTLock\Exception\LockException;
 use SunnyPHP\TTLock\Helper\DateTime;
 use Webmozart\Assert\Assert;
 
@@ -51,6 +52,11 @@ final class UpdateData implements UpdateDataInterface
 	public function getCurrentDateTime(): DateTimeImmutable
 	{
 		return $this->currentDateTime;
+	}
+
+	public function getExceptionClass(): string
+	{
+		return LockException::class;
 	}
 
 	public function getRequiredConfiguration(): int

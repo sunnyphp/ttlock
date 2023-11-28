@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use SunnyPHP\TTLock\Contract\Request\Lock\DeleteInterface;
 use SunnyPHP\TTLock\Contract\Request\Method;
 use SunnyPHP\TTLock\Contract\Request\RequiredConfiguration;
+use SunnyPHP\TTLock\Exception\LockException;
 use SunnyPHP\TTLock\Helper\DateTime;
 
 final class Delete implements DeleteInterface
@@ -44,6 +45,11 @@ final class Delete implements DeleteInterface
 	public function getRequiredConfiguration(): int
 	{
 		return RequiredConfiguration::CLIENT_ID | RequiredConfiguration::ACCESS_TOKEN;
+	}
+
+	public function getExceptionClass(): string
+	{
+		return LockException::class;
 	}
 
 	public function getEndpointUrl(): string
