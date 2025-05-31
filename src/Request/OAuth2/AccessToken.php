@@ -25,7 +25,11 @@ final class AccessToken implements AccessTokenInterface
 		bool $encryptedPassword = false
 	) {
 		Assert::stringNotEmpty($username, 'Username parameter should be non-empty string');
-		Assert::regex($username, '~^\w+$~', 'Username should contain only english characters or/and numbers');
+		Assert::regex(
+		    $username,
+		    '~^(?:\w+|\w[\w\.-]*@[\w\.-]+\.\w+)$~',
+		    'Username must contain only letters/numbers or be a valid email'
+		);
 		if ($encryptedPassword) {
 			Assert::length($password, 32, 'Password parameter should be non-empty 32-character string (md5 hash)');
 		}
